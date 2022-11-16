@@ -24,6 +24,7 @@ jobs:
       - name: build v8
         shell: cmd
         run: |
+          gclient config https://chromium.googlesource.com/v8/v8
           gclient sync -f
 
 
