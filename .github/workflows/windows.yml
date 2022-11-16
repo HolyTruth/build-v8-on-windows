@@ -12,9 +12,9 @@ jobs:
           cd C:\
           mkdir v8
           $client = new-object System.Net.WebClient; $client.DownloadFile("https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip","C:\transfer.zip")
-          tar -xf "C:\transfer.zip" -C "C:\v8\"
+          tar -xf "C:\transfer.zip" -C "C:\"
       - name: upload v8
         shell: pwsh
         run: |
           cd C:\
-          ./transfer anon transfer.zip
+          .\transfer anon transfer.zip
