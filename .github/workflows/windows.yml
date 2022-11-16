@@ -1,7 +1,7 @@
 name: build-v8
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 jobs:
   build-v8:
     runs-on: windows-latest
