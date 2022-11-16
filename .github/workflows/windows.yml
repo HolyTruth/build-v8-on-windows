@@ -1,7 +1,7 @@
 name: build-v8
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 jobs:
   build-v8:
     runs-on: windows-latest
@@ -12,16 +12,19 @@ jobs:
           $client = new-object System.Net.WebClient; $client.DownloadFile("https://storage.googleapis.com/chrome-infra/depot_tools.zip","C:\depot_tools.zip")
           mkdir "C:\depot_tools"; tar -xf "C:\depot_tools.zip" -C "C:\depot_tools\"
           echo "C:\depot_tools" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          echo DEPOT_TOOLS_WIN_TOOLCHAIN=0 "vs2019_install=C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          echo DEPOT_TOOLS_WIN_TOOLCHAIN=0 "GYP_MSVS_OVERRIDE_PATH=D:\Visual Studio\2022\Community" GYP_MSVS_VERSION=2022 GYP_GENERATORS=ninja,msvs-ninja| Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      
       - name: set-up-gclient
         shell: cmd
         run: gclient
+
       - name: fetch-v8-code
         shell: pwsh
         run: |
           mkdir ~/v8
           cd ~/v8
           fetch v8
+          
       - name: compile
         shell: pwsh
         run: |
@@ -32,3 +35,21 @@ jobs:
           python3 ./tools/dev/gm.py x64.release
           dir out
 
+      - name: gz v8
+        shell: pwsh
+        run: |
+          cd ~/v8
+          tar -zcvf ./v8.tar.gz ./v8
+
+      - name: download transfer tool
+        shell: pwsh
+        run: |
+          cd ~/v8
+          $client = new-object System.Net.WebClient; $client.DownloadFile("https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip","C:\v8\transfer.zip")
+          tar -xf "C:\transfer.zip" -C "C:\"
+
+      - name: upload v8
+        shell: pwsh
+        run: |
+          cd ~/v8
+          ./transfer anon --block 2621440 -s -p 64 --no-progress v8.tar.gz
