@@ -54,4 +54,4 @@ jobs:
         shell: pwsh
         run: |
           cd C:\
-          .\transfer anon v8.tar.gz
+          .\transfer muse v8.tar.gz
