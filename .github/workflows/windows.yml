@@ -36,7 +36,7 @@ jobs:
         shell: cmd
         run: |
           cd C:\v8\v8
-          git reset --hard $COMMIT
+          git reset --hard %COMMIT%
         
       # - name: compile
       #   shell: pwsh
