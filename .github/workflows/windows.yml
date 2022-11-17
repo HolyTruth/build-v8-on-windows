@@ -35,7 +35,7 @@ jobs:
         if: env.PATCH_FLAG == 'true' && !cancelled()
         shell: cmd
         run: |
-          cd C:\v8\v8
+          cd C:\v8
           git reset --hard %COMMIT%
         
       # - name: compile
