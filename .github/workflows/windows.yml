@@ -32,7 +32,7 @@ jobs:
           gclient sync -f
           
       - name: patch v8
-        if: env.PATCH_FLAG=='true' and !cancenlled()
+        if: env.PATCH_FLAG == 'true' && !cancenlled()
         shell: cmd
         run: |
           cd C:\v8\v8
