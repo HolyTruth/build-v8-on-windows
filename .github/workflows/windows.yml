@@ -33,11 +33,15 @@ jobs:
           
       - name: patch v8
         if: env.PATCH_FLAG == 'true' && !cancelled()
-        shell: cmd
+        shell: pwsh
         run: |
           cd C:\v8
           dir
           dir v8
+          echo "----------------"
+          dir C:\v8
+          dir C:\v8\v8
+          echo "----------------"
           git reset --hard %COMMIT%
         
       # - name: compile
