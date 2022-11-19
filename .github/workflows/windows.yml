@@ -36,6 +36,8 @@ jobs:
         shell: cmd
         run: |
           cd C:\v8
+          dir
+          dir v8
           git reset --hard %COMMIT%
         
       # - name: compile
@@ -47,6 +49,7 @@ jobs:
       #     dir tools/dev
       #     python3 ./tools/dev/gm.py x64.release
       #     dir out
+      
       - name: download transfer tool
         shell: pwsh
         run: |
