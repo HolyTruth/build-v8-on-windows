@@ -4,6 +4,7 @@ on:
     branches: [main]
 env:
   PATCH_FLAG: true
+  depot_tools_FLAG: false
   COMMIT: 1e4b1c521a491c7487028b7f2aec550c1b36606b
 jobs:
   build-v8:
@@ -54,6 +55,20 @@ jobs:
           cd C:\
           $client = new-object System.Net.WebClient; $client.DownloadFile("https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip","C:\transfer.zip")
           tar -xf "C:\transfer.zip" -C "C:\"
+
+      - name: gz depot_tools
+        if: env.depot_tools_FLAG == 'true' && !cancelled()
+        shell: pwsh
+        run: |
+          cd C:\
+          tar -zcvf ./depot_tools.tar.gz ./depot_tools
+
+      - name: upload depot_tools
+        if: env.depot_tools_FLAG == 'true' && !cancelled()
+        shell: pwsh
+        run: |
+          cd C:\
+          .\transfer muse depot_tools.tar.gz
 
       - name: gz v8
         shell: pwsh
