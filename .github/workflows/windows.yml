@@ -25,6 +25,13 @@ jobs:
           mkdir v8
           cd v8
           fetch v8
+          
+      - name: build v8
+        shell: pwsh
+        run: |
+          cd C:\v8\v8
+          gclient config https://chromium.googlesource.com/v8/v8
+          gclient sync -f
       
       - name: patch v8
         if: env.PATCH_FLAG == 'true' && !cancelled()
@@ -34,8 +41,9 @@ jobs:
           git reset --hard %COMMIT%
           
       - name: build v8
-        shell: cmd
+        shell: pwsh
         run: |
+          cd C:\v8\v8
           gclient config https://chromium.googlesource.com/v8/v8
           gclient sync -f
           
